@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Funds</title>
+    <style>
+        /* Reset and Basic Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* Header Styling */
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .header h2 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #A5A5A5;
+        }
+        
+        /* Withdrawal Method Selection */
+        .withdraw-method {
+            margin-bottom: 30px;
+        }
+        
+        .withdraw-method select {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        /* Withdrawal Form Styling */
+        .withdraw-form {
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .withdraw-form h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .withdraw-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .withdraw-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        
+        .withdraw-form button {
+            padding: 12px 20px;
+            background-color: #00FF00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .withdraw-form button:hover {
+            background-color: #00CC00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Withdraw Funds</h1>
+            <h2>Select Withdrawal Method</h2>
+        </header>
+
+        <!-- Withdrawal Method Section -->
+        <div class="withdraw-method">
+            <form id="withdraw-method-form">
+                <label for="withdraw-method">Choose Withdrawal Method:</label>
+                <select id="withdraw-method" name="withdraw-method" onchange="toggleWithdrawalForm()">
+                    <option value="">Select Method</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                    <option value="pay-to-number">Pay to Phone Number</option>
+                </select>
+            </form>
+        </div>
+
+        <!-- Bank Transfer Form -->
+        <div class="withdraw-form" id="bank-transfer-form">
+            <h3>Bank Transfer</h3>
+            <form onsubmit="return submitWithdrawalForm('bank-transfer');">
+                <label for="id-phone">ID Phone Number:</label>
+                <input type="text" id="id-phone" name="id-phone" required>
+
+                <label for="bank-account">Bank Account Number:</label>
+                <input type="text" id="bank-account" name="bank-account" required>
+
+                <label for="account-holder">Account Holder Name:</label>
+                <input type="text" id="account-holder" name="account-holder" required>
+
+                <label for="ifsc-code">IFSC Code:</label>
+                <input type="text" id="ifsc-code" name="ifsc-code" required>
+
+                <label for="withdraw-amount">Amount to Withdraw:</label>
+                <input type="number" id="withdraw-amount" name="withdraw-amount" required>
+
+                <button type="submit">Confirm Withdrawal</button>
+            </form>
+        </div>
+
+        <!-- Pay to Phone Number Form -->
+        <div class="withdraw-form" id="pay-to-number-form">
+            <h3>Pay to Phone Number</h3>
+            <form onsubmit="return submitWithdrawalForm('pay-to-number');">
+                <label for="id-phone">ID Phone Number:</label>
+                <input type="text" id="id-phone" name="id-phone" required>
+
+                <label for="phone-number">Recipient Phone Number:</label>
+                <input type="text" id="phone-number" name="phone-number" required>
+
+                <label for="withdraw-amount-phone">Amount to Withdraw:</label>
+                <input type="number" id="withdraw-amount-phone" name="withdraw-amount-phone" required>
+
+                <button type="submit">Confirm Withdrawal</button>
+            </form>
+        </div>
+    </div>
+<script>
+
+    // Function to toggle visibility of withdrawal forms based on selected method
+    function toggleWithdrawalForm() {
+        const method = document.getElementById('withdraw-method').value;
+        const bankTransferForm = document.getElementById('bank-transfer-form');
+        const payToNumberForm = document.getElementById('pay-to-number-form');
+
+        // Show/hide forms based on selected method
+        if (method === 'bank-transfer') {
+            bankTransferForm.style.display = 'block';
+            payToNumberForm.style.display = 'none';
+        } else if (method === 'pay-to-number') {
+            bankTransferForm.style.display = 'none';
+            payToNumberForm.style.display = 'block';
+        } else {
+            bankTransferForm.style.display = 'none';
+            payToNumberForm.style.display = 'none';
+        }
+    }
+
+    // Function to handle form submission for withdrawal
+    function submitWithdrawalForm(method) {
+        const idPhone = prompt("Enter your ID Phone Number:");
+        if (!idPhone) {
+            alert("ID Phone Number is required.");
+            return false;
+        }
+
+        let data = { method, id_phone: idPhone };
+        let amount = 0;
+
+        if (method === 'bank-transfer') {
+            data.bank_account = document.getElementById('bank-account').value;
+            data.account_holder = document.getElementById('account-holder').value;
+            data.ifsc_code = document.getElementById('ifsc-code').value;
+            amount = parseFloat(document.getElementById('withdraw-amount').value);
+        } else if (method === 'pay-to-number') {
+            data.phone_number = document.getElementById('phone-number').value;
+            amount = parseFloat(document.getElementById('withdraw-amount-phone').value);
+        }
+
+        data.amount = amount;
+
+        // Validate inputs
+        if (!amount || amount <= 0) {
+            alert("Please enter a valid amount to withdraw.");
+            return false;
+        }
+
+        // Submit data to the backend
+        fetch('http://localhost:8080/newshadowexchange/backend/withdraw_process.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    alert(result.message); // Success message
+                    // Optionally, clear the forms after a successful submission
+                    if (method === 'bank-transfer') {
+                        document.getElementById('bank-account').value = '';
+                        document.getElementById('account-holder').value = '';
+                        document.getElementById('ifsc-code').value = '';
+                        document.getElementById('withdraw-amount').value = '';
+                    } else if (method === 'pay-to-number') {
+                        document.getElementById('phone-number').value = '';
+                        document.getElementById('withdraw-amount-phone').value = '';
+                    }
+                } else {
+                    alert(result.message); // Error message
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while processing your withdrawal.');
+            });
+
+        return false; // Prevent form submission
+    }
+
+    // Attach the toggle function to the `onchange` event for the dropdown
+    document.addEventListener('DOMContentLoaded', function () {
+        const methodSelect = document.getElementById('withdraw-method');
+        if (methodSelect) {
+            methodSelect.addEventListener('change', toggleWithdrawalForm);
+        }
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Shadow Exchange</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background Styling */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Sign Up Box */
+        .signup-box {
+            background-color: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        /* Heading */
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            outline: none;
+            transition: border 0.3s ease;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        .input-group input:focus {
+            border-color: #4caf50;
+        }
+
+        /* Agree to Terms Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        /* Sign Up Button */
+        .signup-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Terms and Conditions Link */
+        .terms-link {
+            font-size: 12px;
+            color: #4caf50;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Login Link */
+        .login-link {
+            font-size: 14px;
+            color: #4caf50;
+            margin-top: 20px;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Message */
+        .message {
+            margin-top: 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="signup-box">
+            <h2>Create an Account</h2>
+            <form action="http://localhost:8080/newshadowexchange/backend/signup.php" method="POST" id="signup-form">
+
+               
+      
+            
+                <div class="input-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">I agree to the <a href="#" class="terms-link">terms and conditions</a></label>
+                </div>
+
+                <button type="submit" class="signup-btn">Sign Up</button>
+            </form>
+            
+            <!-- Message displayed after form submission -->
+            <div class="message" id="message"></div>
+
+            <!-- Link to login page -->
+            <a href="../web/login.html" class="login-link" id="login-link" style="display: none;">Go to Login</a>
+        </div>
+    </div>
+<script>// Wait for the DOM to load
+    document.addEventListener("DOMContentLoaded", () => {
+        const signupForm = document.getElementById("signup-form");
+        const messageDiv = document.getElementById("message");
+        const loginLink = document.getElementById("login-link");
+    
+        // Function to display a message to the user
+        const displayMessage = (message, isError = false) => {
+            messageDiv.textContent = message;
+            messageDiv.style.color = isError ? "red" : "green";
+        };
+    
+        // Form submission handler
+        signupForm.addEventListener("submit", (event) => {
+            event.preventDefault(); // Prevent default form submission
+    
+            // Get input values
+            const phone = document.getElementById("phone").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirm-password").value.trim();
+            const agreeCheckbox = document.getElementById("agree").checked;
+    
+            // Input validation
+            if (!phone || !password || !confirmPassword) {
+                displayMessage("Please fill in all fields.", true);
+                return;
+            }
+    
+            if (!/^\d{10,}$/.test(phone)) {
+                displayMessage("Phone number must be at least 10 digits.", true);
+                return;
+            }
+    
+            if (password.length < 8) {
+                displayMessage("Password must be at least 8 characters long.", true);
+                return;
+            }
+    
+            if (password !== confirmPassword) {
+                displayMessage("Passwords do not match.", true);
+                return;
+            }
+    
+            if (!agreeCheckbox) {
+                displayMessage("You must agree to the terms and conditions.", true);
+                return;
+            }
+    
+            // If all validations pass, submit the form
+            displayMessage("Signing up...", false);
+    
+            // Simulate an asynchronous request (Replace with real backend call)
+            fetch(signupForm.action, {
+                method: signupForm.method,
+                body: new FormData(signupForm),
+            })
+                .then((response) => response.text())
+                .then((result) => {
+                    if (result.includes("successful")) {
+                        displayMessage("Sign up successful! Redirecting to login...", false);
+                        loginLink.style.display = "block";
+                    } else {
+                        displayMessage(result, true);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    displayMessage("An error occurred. Please try again later.", true);
+                });
+        });
+    });
+    </script>
+   
+</body>
+</html>

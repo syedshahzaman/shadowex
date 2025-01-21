@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <style>
+        /* Same styling as before */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .header h2 {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #A5A5A5;
+        }
+        .qr-code-section img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .deposit-form {
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 40px;
+            border-radius: 10px;
+        }
+        .deposit-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        .deposit-form button {
+            padding: 12px 20px;
+            background-color: #00FF00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .deposit-form button:hover {
+            background-color: #00CC00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Deposit Funds</h1>
+            <h2>Deposit Method</h2>
+        </header>
+        <div class="qr-code-section">
+            <img src="QR.png" alt="QR Code">
+            <p>Scan the QR code for instant deposit.</p>
+        </div>
+        <div class="deposit-form">
+            <h3>Deposit Funds</h3>
+            <form id="deposit-form">
+                <label for="transaction-id">Transaction ID:</label>
+                <input type="text" id="transaction-id" name="transaction-id" required>
+
+                <label for="amount">Amount to Deposit:</label>
+                <input type="number" id="amount" name="amount" required>
+
+                <label for="upi-id">Your UPI ID:</label>
+                <input type="text" id="upi-id" name="upi-id" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" pattern="\d{10}" placeholder="Enter your 10-digit phone number" required>
+
+                <button type="submit">Confirm Deposit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('deposit-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const transactionId = document.getElementById('transaction-id').value;
+            const amount = document.getElementById('amount').value;
+            const upiId = document.getElementById('upi-id').value;
+            const phone = document.getElementById('phone').value;
+
+            fetch('http://localhost:8080/newshadowexchange/backend/process_deposit.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    transaction_id: transactionId,
+                    amount: amount,
+                    upi_id: upiId,
+                    phone: phone
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Your payment will be verified between 9:00 PM - 10:00 PM. Thank you for trusting us!');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Something went wrong: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

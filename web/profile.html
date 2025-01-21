@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - CryptoTrading Pro</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background Styling */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Profile Box */
+        .profile-box {
+            background-color: #2e2e2e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Heading */
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Profile Picture */
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 30px;
+            background-color: #1e1e1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #4caf50;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        /* User Info */
+        .user-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .user-info div {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        /* Edit Info Form */
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            outline: none;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        .input-group input:focus {
+            border-color: #4caf50;
+        }
+
+        /* Save Changes Button */
+        .save-btn {
+            padding: 14px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            margin-top: 20px;
+            padding: 14px;
+            background-color: #8b0a1a;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #660000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Profile Page</h2>
+        <div class="profile-box">
+            <!-- Profile Picture -->
+            <div class="profile-pic" id="profile-pic">
+                <img src="https://via.placeholder.com/120" alt="Profile Picture">
+            </div>
+
+            <!-- User Info -->
+            <div class="user-info">
+                <div><strong>Username:</strong> <span id="username">Loading...</span></div>
+                <div><strong>Email:</strong> <span id="email">Loading...</span></div>
+                <div><strong>Phone:</strong> <span id="phone">Loading...</span></div>
+            </div>
+        </div>
+
+        <!-- Edit Info Form -->
+        <div class="profile-box">
+            <form class="edit-form" action="#" method="POST">
+                <div class="input-group">
+                    <label for="new-email">New Email</label>
+                    <input type="email" id="new-email" name="new-email" placeholder="Enter your new email">
+                </div>
+
+                <div class="input-group">
+                    <label for="new-phone">New Phone Number</label>
+                    <input type="tel" id="new-phone" name="new-phone" placeholder="Enter your new phone number">
+                </div>
+
+                <div class="input-group">
+                    <label for="new-password">New Password</label>
+                    <input type="password" id="new-password" name="new-password" placeholder="Enter your new password">
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your new password">
+                </div>
+
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- Logout Button -->
+        <button class="logout-btn">Log Out</button>
+    </div>
+
+    <script>
+        // Fetch CSV and populate user data
+        async function loadUserProfile() {
+            try {
+                const response = await fetch('http://localhost:8080/newshadowexchange/backend/users.csv');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+
+                const csvText = await response.text();
+                const rows = csvText.split('\n').map(row => row.split(','));
+                const user = rows.find(row => row[0] === 'JohnDoe'); // Replace 'JohnDoe' with dynamic user ID if available
+                
+                if (user) {
+                    const [username, email, phone] = user;
+                    document.getElementById('username').textContent = username;
+                    document.getElementById('email').textContent = email;
+                    document.getElementById('phone').textContent = phone;
+                } else {
+                    console.error('User not found');
+                }
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+            }
+        }
+
+        loadUserProfile();
+    </script>
+</body>
+</html>

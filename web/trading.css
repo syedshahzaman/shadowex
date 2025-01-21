@@ -1,0 +1,231 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    padding: 10px 20px;
+    background-color: #1e1e1e;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-group {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 255, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.header-earnings {
+    background-color: rgba(128, 128, 128, 0.6);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.header button {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.left {
+    flex: 2;
+    background-color: #2e2e2e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.left canvas {
+    display: block;
+    width: 100%;
+    height: 300px; /* Ensure the chart fits within the container */
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #1e1e1e; /* Optional for better visibility */
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.trading-panel,
+.trading-stats {
+    background-color: #3e3e3e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.trading-panel h1 {
+    margin: 0;
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.trading-panel .group {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    color: #00ff00;
+}
+
+.trading-panel .cycle {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+}
+
+.trading-panel .countdown {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+}
+
+.trading-panel .balance,
+.trading-panel .pcoin {
+    background-color: #2c2f33;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.trading-panel .balance {
+    margin-top: 80px;
+}
+
+.trading-panel .pcoin {
+    margin-top: 10px;
+}
+
+.trading-panel .investment-input {
+    display: block;
+    background-color: #2c2f33;
+    border: none;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    width: calc(100% - 40px);
+    margin-top: 10px;
+}
+
+.trading-panel .buy-button {
+    display: block;
+    background-color: #00ff00;
+    color: #000000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.trading-panel .sell-button {
+    display: block;
+    background-color: #8b0a1a;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.trading-panel .sell-button:hover {
+    background-color: #660000;
+}
+
+.trading-panel .buy-button:hover {
+    background-color: #00cc00;
+}
+
+.trading-panel .info {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.transaction-history {
+    background-color: #3e3e3e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.transaction-history h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.transaction-history table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.transaction-history th,
+.transaction-history td {
+    padding: 10px;
+    border: 1px solid #4c4c4c;
+    text-align: left;
+}
+
+.transaction-history th {
+    background-color: #2c2c2c;
+}
+
+/* Ensure scrollability for smaller screens */
+body {
+    overflow-y: auto;
+}

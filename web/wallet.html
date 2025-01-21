@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Exchange Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>/* Reset and Basic Styling */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        background-color: #121212;
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+    
+    .container {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    /* Header Styling */
+    .header h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    
+    .header h2 {
+        font-size: 24px;
+        margin-bottom: 40px;
+        color: #A5A5A5;
+    }
+    
+    /* Wallet Tab Styling */
+    .wallet-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+    
+    .wallet-icon {
+        font-size: 100px;
+        color: #00FF00;
+        margin-bottom: 10px;
+    }
+    
+    .balance p {
+        font-size: 28px;
+        margin: 5px 0;
+        font-weight: bold;
+    }
+    
+    /* Circular Threshold Styling */
+    .threshold-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+    
+    .threshold {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #00FF00;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .percentage {
+        font-size: 24px;
+        color: #000000;
+        font-weight: bold;
+    }
+    
+    /* Action Icons Styling */
+    .action-icons {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 40px;
+    }
+    
+    .action-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 120px;
+    }
+    
+    .action-item i {
+        font-size: 50px;
+        color: #A5A5A5;
+        margin-bottom: 10px;
+    }
+    
+    .action-item p {
+        font-size: 16px;
+        color: #A5A5A5;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Shadow Exchange Wallet</h1>
+            <h2>Your Wallet</h2>
+        </header>
+        
+        <!-- Wallet Tab Section -->
+        <div class="wallet-tab">
+            <div class="wallet-icon">
+                <i class="fas fa-wallet"></i> <!-- Font Awesome wallet icon -->
+            </div>
+            <div class="balance">
+                <p>₹X</p>
+                <p>Total Balance</p>
+            </div>
+        </div>
+
+        <!-- Circular Threshold Section -->
+        <div class="threshold-container">
+            <div class="threshold">
+                <div class="percentage">100%</div>
+            </div>
+        </div>
+
+        <!-- Action Icons Section -->
+        <div class="action-icons">
+            <div class="action-item">
+                <i class="fas fa-arrow-circle-down"></i> <!-- Deposit icon -->
+                <p>Deposit</p>
+            </div>
+            <div class="action-item" href="deposit.html">
+                <i class="fas fa-arrow-circle-up"></i> <!-- Withdraw icon -->
+                <p>Withdraw </p>
+            </div>
+            <div class="action-item">
+                <i class="fas fa-history"></i> <!-- Deposit History icon -->
+                <p>Deposit History</p>
+            </div>
+            <div class="action-item">
+                <i class="fas fa-history"></i> <!-- Withdraw History icon -->
+                <p>Withdrawal History</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

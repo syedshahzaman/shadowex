@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Exchange</title>
+    <link rel="stylesheet" href="trading.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 45px;
+            padding: 10px 20px;
+            background-color: #1e1e1e;
+        }
+        
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .header-group, .header-earnings {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .header-group {
+            background-color: rgba(0, 255, 0, 0.6);
+        }
+        
+        .header-earnings {
+            background-color: rgba(128, 128, 128, 0.6);
+        }
+        
+        .header button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .main {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+        
+        .left {
+            flex: 2;
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        
+        .left canvas {
+            display: block;
+            width: 100%;
+            height: 300px;
+            margin-top: 10px;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+        }
+        
+        .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .trading-panel,
+        .trading-stats {
+            background-color: #3e3e3e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .transaction-history {
+            background-color: #3e3e3e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .transaction-history table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .transaction-history th, .transaction-history td {
+            padding: 10px;
+            border: 1px solid #4c4c4c;
+            text-align: left;
+        }
+        
+        .transaction-history th {
+            background-color: #2c2c2c;
+        }
+        .sell-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #e74c3c; /* Red for sell */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sell-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+.nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-menu a:hover {
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="nav-menu">
+                <a href="index.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="deposit.html">Deposit</a>
+                <a href="withdraw.html">Withdraw</a>
+                <a href="wallet.html">Wallet</a>
+            </div>
+            <div class="header-title">SHADOW EXCHANGE</div>
+          
+            <div class="header-earnings">Total Earnings: ₹<span id="earnings">0.00</span></div>
+            <button id="logout">Logout</button>
+        </div>
+        <div class="main">
+            <div class="left">
+                <h2>PCOIN/INR</h2>
+                <h3 id="price">₹1.00</h3>
+                <canvas id="priceChart"></canvas>
+            </div>
+            <div class="right">
+                <div class="trading-panel">
+                    <h1>Trading Panel</h1><br>
+                
+                    <div class="cycle">Cycle: <span id="cycleNumber">0</span></div>
+                    <div class="countdown" id="countdown">60s</div>
+                    <div class="balance">Balance: <span id="balance">1000.00</span></div>
+                    <div class="pcoin">PCOIN: <span id="pcoin">0.000</span></div>
+                    <input type="number" class="investment-input" id="invInput" placeholder="Enter amount to invest">
+                    <button class="buy-button" id="buyButton">Buy PCOIN</button>
+                    <input type="number" class="investment-input" id="sellInput" placeholder="Enter amount to sell">
+                    <button class="sell-button" id="sellButton">Sell PCOIN</button>
+                </div>
+                
+                <div class="trading-stats">
+                    <h3>Trading Statistics</h3>
+                    <p>Average Buy Price: ₹<span id="avgBuyPrice">0.00</span></p>
+                    <p>Current Holdings: <span id="currentHoldings">0.000</span> PCOIN</p>
+                    <p>Unrealized P/L: ₹<span id="unrealizedPL">0.00</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="transaction-history">
+            <h2>Transaction History</h2>
+            <table id="transactionHistoryTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Transaction</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Transactions will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script>// JavaScript to update the price and countdown dynamically
+    const priceElement = document.getElementById('price');
+    const countdownElement = document.getElementById('countdown');
+    
+    // Function to fetch price and countdown from the backend
+    async function fetchPriceAndCountdown() {
+        try {
+            const response = await fetch('http://localhost:8080/newshadowexchange/backend/trading.php');
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+            const data = await response.json();
+    
+            if (data.error) {
+                console.error(data.error);
+                return;
+            }
+    
+            // Update the price and countdown in the DOM
+            priceElement.textContent = `₹${data.price.toFixed(2)}`;
+            countdownElement.textContent = `${data.countdown}s`;
+    
+            // Start a new countdown
+            startCountdown();
+        } catch (error) {
+            console.error('Failed to fetch price and countdown:', error);
+        }
+    }
+    
+    function startCountdown() {
+        let remainingTime = parseInt(countdownElement.textContent, 10);
+    
+        const interval = setInterval(() => {
+            if (remainingTime <= 1) {
+                clearInterval(interval);
+                fetchPriceAndCountdown(); // Fetch new data when the countdown ends
+            } else {
+                remainingTime -= 1;
+                countdownElement.textContent = `${remainingTime}s`;
+            }
+        }, 1000);
+    }
+    
+    // Initial fetch and start the countdown loop
+    (async function initialize() {
+        await fetchPriceAndCountdown();
+    })();
+    </script>
+<script>
+ document.getElementById('buyButton').addEventListener('click', () => {
+    const investment = parseFloat(document.getElementById('invInput').value);
+    const currentPrice = parseFloat(document.getElementById('price').innerText.replace('₹', ''));
+
+    if (!investment || investment <= 0) {
+        alert('Please enter a valid investment amount.');
+        return;
+    }
+
+    fetch('http://localhost:8080/newshadowexchange/backend/buysell.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `action=buy&investment=${investment}&currentPrice=${currentPrice}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('balance').innerText = data.balance.toFixed(2);
+            document.getElementById('pcoin').innerText = data.tokens.toFixed(3);
+            alert('Purchase successful!');
+        } else {
+            alert(data.message);
+        }
+    });
+});
+
+document.getElementById('sellButton').addEventListener('click', () => {
+    const tokensToSell = parseFloat(document.getElementById('sellInput').value);
+    const currentPrice = parseFloat(document.getElementById('price').innerText.replace('₹', ''));
+
+    if (!tokensToSell || tokensToSell <= 0) {
+        alert('Please enter a valid token amount to sell.');
+        return;
+    }
+
+    fetch('http://localhost:8080/newshadowexchange/backend/buysell.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `action=sell&tokens=${tokensToSell}&currentPrice=${currentPrice}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('balance').innerText = data.balance.toFixed(2);
+            document.getElementById('pcoin').innerText = data.tokens.toFixed(3);
+            alert(`Sale successful! Tax collected: ₹${data.tax_collected.toFixed(2)}`);
+        } else {
+            alert(data.message);
+        }
+    });
+});
+
+ </script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch user wallet data from the backend
+        fetch('http://localhost:8080/newshadowexchange/backend/buysell.php', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update balance and tokens in the UI
+                    document.getElementById('balance').innerText = `₹${data.balance.toFixed(2)}`;
+                    document.getElementById('pcoin').innerText = data.tokens.toFixed(2);
+                } else {
+                    console.error('Failed to fetch wallet data:', data.message);
+                }
+            })
+            .catch(error => console.error('Error fetching wallet data:', error));
+    });
+</script>
+
+</body>
+</html>
